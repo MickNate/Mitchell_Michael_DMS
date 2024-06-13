@@ -1,0 +1,20 @@
+Everchanging,The Unraveling,11,2001,3:47,Tim McIlrath,false,1
+Alive and Well,The Unraveling,1,2001,2:06,Tim McIlrath,false,2
+1000 Good Intentions,The Unraveling,14,2001,3:07,Tim McIlrath,false,3
+Like the Angel,Revolutions per Minute,5,2003,2:46,Tim McIlrath,false,4
+Heaven Knows,Revolutions per Minute,2,2003,3:23,Tim McIlrath,false,5
+Torches,Revolutions per Minute,11,2003,3:41,Tim McIlrath,false,6
+Swing Life Away,Siren Song of the Counter Culture,11,2004,3:20,Tim McIlrath,true,7
+Give It All,Siren Song of the Counter Culture,9,2004,4:01,Tim McIlrath,true,8
+Paper Wings,Siren Song of the Counter Culture,4,2004,3:43,Tim McIlrath,false,9
+Injection,The Sufferer and the Witness,2,2006,1:24,Tim McIlrath,false,10
+Prayer of the Refugee,The Sufferer and the Witness,6,2006,3:21,Tim McIlrath,true,11
+Ready to Fall,The Sufferer and the Witness,3,2006,3:47,Tim McIlrath,true,12
+From Heads Unworthy,Appeal to Reason,6,2008,3:42,Tim McIlrath,false,13
+Entertainment,Appeal to Reason,9,2008,3:34,Tim McIlrath,false,14
+Savior,Appeal to Reason,11,2008,4:02,Tim McIlrath,true,15
+Endgame,Endgame,12,2011,3:24,Tim McIlrath,false,18
+I Don't Want to Be Here Anymore,The Black Market,4,2014,3:59,Tim McIlrath,true,19
+Methadone,The Black Market,8,2014,3:48,Tim McIlrath,false,17
+Help Is on the Way,Endgame,2,2011,3:57,Tim McIlrath,true,16
+Survivor Guilt,Endgame,7,2011,4:00,Tim McIlrath,false,20
