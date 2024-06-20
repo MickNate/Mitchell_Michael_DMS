@@ -190,18 +190,32 @@ class Collection {
             songTrack = scanner.nextLine();
             System.out.println("Please enter the year the song was made");
             songYear = scanner.nextLine();
-            System.out.println("Please enter the length of the song");
-            songLength = scanner.nextLine();
+            System.out.println("Please enter the minutes of the song");
+            String minuteLength = scanner.nextLine();
+            System.out.println("Please enter the seconds of the song");
+            String secondLength = scanner.nextLine();
             System.out.println("Please enter the writer of the song");
             songWriter = scanner.nextLine();
-            //try()
+            try{
+                if((Integer.parseInt(minuteLength) >= 0) && (Integer.parseInt(minuteLength) < 60) &&
+                        (Integer.parseInt(secondLength) < 60) && (Integer.parseInt(secondLength) >= 0)){
+                    if(secondLength.length() < 2)
+                        secondLength = "0" + secondLength;
+                    songLength = minuteLength + ":" + secondLength;
+                }
+                else
+                    songLength = ",";
 
-            if(!songTitle.contains(",") && !songAlbum.contains(",") && !songTrack.contains(",") && !songYear.contains(",")
-                    && !songLength.contains(",") && !songWriter.contains(",")) {
-                commaCheck = true; //will only continue if user has no commas
+                if(!songTitle.contains(",") && !songAlbum.contains(",") && !songTrack.contains(",") && !songYear.contains(",")
+                        && !songLength.contains(",") && !songWriter.contains(",")) {
+                    commaCheck = true; //will only continue if user has no commas
+                }
+                else{
+                    System.out.println("At least one input has a comma, please retry without the comma");
+                }
             }
-            else{
-                System.out.println("At least one input has a comma, please retry without the comma");
+            catch(NumberFormatException e){
+                System.out.println("Invalid input. Please try again");
             }
         }
 
@@ -321,19 +335,45 @@ class Collection {
                     System.out.println("Current track number: " + songs[j].track);
                     System.out.println("Please type a new track number: ");
                     answer = scanner.nextLine();
-                    songs[j].track = Integer.parseInt(answer);
+                    try{
+                    songs[j].track = Integer.parseInt(answer);}
+                    catch(Exception e){
+                        System.out.println("Invalid track number");
+                    }
                     break;
                 case 4:
                     System.out.println("Current year: " + songs[j].year);
                     System.out.println("Please type a new year: ");
                     answer = scanner.nextLine();
-                    songs[j].year = Integer.parseInt(answer);
+                    try {
+                        songs[j].year = Integer.parseInt(answer);
+                    }
+                    catch(Exception e){
+                        System.out.println("Invalid year");
+                    }
                     break;
                 case 5:
                     System.out.println("Current length: " + songs[j].length);
-                    System.out.println("Please type a new length (#:## format): ");
+                    System.out.println("How many minutes is the song?: ");
                     answer = scanner.nextLine();
-                    songs[j].length = answer;
+                    String minuteTemp = answer;
+                    System.out.println("How many seconds is the song? (0-59): ");
+                    answer = scanner.nextLine();
+                    String secondTemp = answer;
+                    boolean isInt = false;
+                    try{
+                        if((Integer.parseInt(minuteTemp) >= 0) && (Integer.parseInt(minuteTemp) < 60)
+                                && (Integer.parseInt(secondTemp) > 60) && (Integer.parseInt(secondTemp) <= 0 ))
+                            isInt = true;
+                    }
+                    catch (Exception e){
+                        System.out.println("Invalid input. Please input a valid number for each.");
+                    }
+                    if(isInt){
+                        songs[j].length = minuteTemp + ":" + secondTemp;
+                    }
+                    else
+                        System.out.println("Incorrect input. Please try again.");
                     break;
                 case 6:
                     System.out.println("Current writer: " + songs[j].writer);
@@ -383,7 +423,7 @@ class Collection {
                         System.out.println("Understood. Returning to main screen.");
                     }
                 } else {
-                    System.out.println(songs[j].title + " is already a single. Would you like to remove single status?");
+                    System.out.println(songs[j].title + " is already a single. Would you like to remove single status? (Y/N)");
                     answer = scanner.nextLine();
                     if(answer.equals("Y") || answer.equals("y")) {
                         songs[j].single = false;
