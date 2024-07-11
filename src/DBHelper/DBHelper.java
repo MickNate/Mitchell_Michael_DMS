@@ -5,7 +5,11 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DBHelper {
-	//private final String DATABASE_NAME = "C:\\SQLite\\db\\dms.db";
+	/*
+	 * DBHelper
+	 * Michael N. Mitchell, CEN-3024C-31950, July 10, 2024
+	 * Works as a shortcut in regards to accessing the database.
+	 */
 	private Connection connection;
 	private Statement statement;
 	private ResultSet resultSet;

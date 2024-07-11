@@ -10,32 +10,30 @@ import java.util.*;
 
 public class Collection {
 
-    //"C:\SQLite\db\dms.db"
-    //jdbc:sqlite:C:/SQLite/db/dms.db
     /*
-        Michael N. Mitchell, CEN-3024C-31950, June 12 2024
-        Collection. This class contains an array with all the song objects within.
-        The purpose of this class is to be the main way to access and change the program.
-         */
+     * Collection
+     * Michael N. Mitchell, CEN-3024C-31950, July 10, 2024
+     * The logic portion of the program. Creates a "collection" of songs using the database
+     * and also updates the database with any changes.
+     */
     public Collection(){}
 
-    //String edSearchQuery = null;
     boolean found = false;
     boolean confirmed = false;
     String answer = null;
-    int editNext;
-    int remNext;
-    int singNext;
-    int addNext;
-    Song[] songs;
+    int editNext; //used to determine next part of the edit function
+    int remNext; //used to determine next part of the remove function
+    int singNext; //used to determine next part of the single function
+    int addNext; //used to determine next part of the add function
+    Song[] songs; //container of song objects
     Scanner scanner;
     File file;
     String filename;
-    int songCount;
-    int newId;
+    int songCount; //used to keep track of current amount of songs
+    int newId; //latest id to be assigned to a song
     boolean cont;
-    String userInput;
-    String codeOutput;
+    String userInput; //what is taken from the gui
+    String codeOutput; //whats to be passed to the gui
     int next = 0;
     String songTitle;
     String songAlbum;
@@ -45,7 +43,7 @@ public class Collection {
     String secondLength;
     String songLength;
     String songWriter;
-    int j = 0;
+    int j = 0; //place holder variable
     String doubleCheck = null;
     String searchQuery = null;
     String minuteTemp = null;
@@ -53,7 +51,18 @@ public class Collection {
     String url = null;
     RiseAgainst db1 = null;
 
-    public void createCollection(ResultSet resultSet) throws SQLException {
+    public void createCollection(ResultSet resultSet) throws SQLException
+        /*
+         * Collection createCollection
+         * Takes the resultset of the database and creates an array of
+         * song objects with each song being a different row of the
+         * database.
+         * Arguments:
+         *          Resultset resultset
+         * Returns:
+         *          None
+         */
+    {
 
         Song[] temp = new Song[1]; //creates a temporary array for the Song objects
         newId = 1;
@@ -69,11 +78,31 @@ public class Collection {
         }
     }
 
-    public void setUserInput(String userInput) {
+    public void setUserInput(String userInput)
+        /*
+         * Collection setUserInput
+         * Takes the input based from the gui by the controller and sets that
+         * equal to the Collection's userinput variable
+         * Arguments:
+         *          String userInput
+         * Returns:
+         *          None
+         */
+    {
         this.userInput = userInput;
     }
 
-    public void choices(){
+    public void choices()
+        /*
+         * Collection choices
+         * Takes the "next" variable and uses it to decide which part of the
+         * program to call next.
+         * Arguments:
+         *          None
+         * Returns:
+         *          None
+         */
+    {
         switch(next){
             case 0:
                 introInstru();
@@ -105,45 +134,76 @@ public class Collection {
         }
     }
 
-    public void introInstru(){
+    public void introInstru()
+        /*
+         * Introduction that asks for user to give filepath input
+         * Arguments:
+         *          None
+         * Returns:
+         *          None
+         */
+    {
         codeOutput = "\nWelcome to the Rise Against Database Management System!\nPlease type in a file path.";
         next = 1;
-       //addNext = 1;
     }
 
-    public void colIntro(){
-        /* Introduction function. This is where the program begins as it checks for the
-        * file and moves to the main user interface*/
+    public void colIntro()
+        /*
+         * Collection colIntro
+         * Establishes connection with the database.
+         * Arguments:
+         *          None
+         * Returns:
+         *          None
+         */
+    {
         cont = false;
 
         url = userInput;
         query = "Select * FROM RiseAgainst";
 
         try{
+            //if connection is established, will create a song array of the database entries
             Connection con = DriverManager.getConnection("jdbc:sqlite:" + url);
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             createCollection(resultSet);
-            db1 = new RiseAgainst(url);
+            db1 = new RiseAgainst(url); //RiseAgainst object made to allow easier access to database
             next = 2;
 
            codeOutput = "\nSuccessfully connected!";
-            //System.out.println("\nSuccessfully connected!");
         }
         catch(SQLException e){
-            //e.printStackTrace();
             codeOutput = "\nUnable to connect. Please double check file path.";
         }
 
     }
 
-    public void quit(){
-        //writeFile();
+    public void quit()
+        /*
+         * Collection quit
+         * Shuts down the program
+         * Arguments:
+         *          None
+         * Returns:
+         *          None
+         */
+    {
         System.exit(0);
     }
-    public void displayLibrary(){
+
+    public void displayLibrary()
+        /*
+         * Collection displayLibrary
+         * Will go through the array of songs and display each song and the user menu options
+         * Arguments:
+         *          None
+         * Returns:
+         *          None
+         */
+    {
         codeOutput = ("\nThe current songs in the library are: \n\n");
-        for(int i = 0; i < songCount; i++) //displays each entry of library file.
+        for(int i = 0; i < songCount; i++) //displays each songs.
         {
             codeOutput += (songs[i].toString() + "\n");
         }
@@ -155,10 +215,15 @@ public class Collection {
     }
 
     public void interaction() {
-        // the interaction function.
-        // this function is here to allow the user to see and make choices related to the library
-        // It takes in a list of strings that contain the library, a scanner, and a string with the filename
-        // To other functions it sends out the list of strings containing the library and the scanner.
+        /*
+         * Collection interaction
+         * Will look at user input on the menu and update place variables so when collection
+         * called again, will move to that corresponding function
+         * Arguments:
+         *          None
+         * Returns:
+         *          None
+         */
 
         answer = null;
         found = false;
@@ -181,8 +246,8 @@ public class Collection {
             case "Q":
             case "q":
                 codeOutput = "\nGoing to quit now. Click to continue.";
-                next = 6;
-                break; //ends program
+                next = 6; //calls function to quit
+                break;
             case "S":
             case "s":
                 codeOutput = "\nGoing to single now. Click to continue.";
@@ -199,7 +264,17 @@ public class Collection {
         }
 
 
-    public void addSong() {
+    public void addSong()
+        /*
+         * Collection addSong
+         * Creates a song object, puts song object in the collection and creates a corresponding
+         * row in the database.
+         * Arguments:
+         *          None
+         * Returns:
+         *          None
+         */
+    {
 
         boolean commaCheck = false;
 
@@ -223,7 +298,8 @@ public class Collection {
             case 4:
                 songTrack = userInput;
                 try{
-                    if(Integer.parseInt(songTrack) > 0) {
+                    if(Integer.parseInt(songTrack) > 0)  //makes sure it's a real number
+                    {
                         codeOutput += ("\nPlease enter the year the song was made");
                         addNext = 5;
                     }
@@ -235,7 +311,8 @@ public class Collection {
             case 5:
                 songYear = userInput;
                 try{
-                    if(Integer.parseInt(songYear) > 0){
+                    if(Integer.parseInt(songYear) > 0) //makes sure it's a real year
+                    {
                         codeOutput += ("\nPlease enter the minutes of the song");
                         addNext = 6;
                     }
@@ -247,7 +324,9 @@ public class Collection {
             case 6:
                 minuteLength = userInput;
                 try {
-                    if ((Integer.parseInt(minuteLength) >= 0) && (Integer.parseInt(minuteLength) < 60)){
+                    if ((Integer.parseInt(minuteLength) >= 0) && (Integer.parseInt(minuteLength) < 60))
+                    //makes sure the minutes are between 0 and 59
+                    {
                         addNext = 7;
                         codeOutput += ("\nPlease enter the seconds of the song"); }
                     else {
@@ -264,7 +343,9 @@ public class Collection {
             case 7:
                 secondLength = userInput;
                 try {
-                    if ((Integer.parseInt(secondLength) >= 0) && (Integer.parseInt(secondLength) < 60)) {
+                    if ((Integer.parseInt(secondLength) >= 0) && (Integer.parseInt(secondLength) < 60))
+                    //makes sure the seconds are between 0 and 59
+                    {
                         if (secondLength.length() < 2) {
                             secondLength = "0" + secondLength;
                         }
@@ -298,20 +379,18 @@ public class Collection {
                         Song[] temp = songs;
                         temp[temp.length - 1] = latest;
                         songs = Arrays.copyOf(temp, temp.length + 1);
-                        newId = latest.id + 1;
+                        newId = latest.id;
                         songCount++;
                         db1.insert(songTitle,songAlbum,Integer.parseInt(songTrack),Integer.parseInt(songYear),
                                 songLength,songWriter,false,newId);
+                        //creates a new song object and adds song to the database
                         newId++;
                         codeOutput = "\nSong added! Please press the button to continue.\n";
-                        //addNext = 9;
-                        nullifyTemps();
-                        System.out.println("Added song!");
+                        nullifyTemps(); //sets the temp values to null for future use
                         next = 2;
                         addNext = 1;
                     } catch (Exception e) {
                         codeOutput = ("\nThe input is not correct. Please try again.\nClick to continue.\n");
-                        System.out.println("Adding failed");
                         addNext = 1;
                         next = 2;
                         nullifyTemps();
@@ -321,7 +400,16 @@ public class Collection {
             }
         }
 
-    public void nullifyTemps(){
+    public void nullifyTemps()
+        /*
+         * Collection nullifyTemps
+         * Takes the temporary song variables and sets then all to null.
+         * Arguments:
+         *          None
+         * Returns:
+         *          None
+         */
+    {
         songTitle = null;
         songAlbum = null;
         songTrack = null;
@@ -333,7 +421,16 @@ public class Collection {
     }
 
 
-    public void removeSong(){
+    public void removeSong()
+        /*
+         * Collection removeSong
+         * Removes a song from the collection and removes corresponding row from database
+         * Arguments:
+         *          None
+         * Returns:
+         *          None
+         */
+    {
         switch(remNext){
             case 1:
                 codeOutput = ("\nPlease enter the name or id number of the song you wish to remove");
@@ -372,6 +469,7 @@ public class Collection {
                     if(doubleCheck.equals("Y") || doubleCheck.equals("y")) {
                         codeOutput = ("\nConfirmed. Removing song.");
                         db1.delete("ID", String.valueOf(songs[j].id));
+                        //finds corresponding id within the database
                         for(int i = j; i < songCount-1; i++) {
                             songs[i] = songs[i+1];
                         }
@@ -398,7 +496,16 @@ public class Collection {
         }
     }
 
-    private void searchFor(String searchQuery) {
+    private void searchFor(String searchQuery)
+        /*
+         * Collection searchFor
+         * Looks through the collection for a song with a corresponding id or title
+         * Arguments:
+         *          String searchQuery
+         * Returns:
+         *          None
+         */
+    {
         for(int i = 0; i < songCount; i++) {
             try {
                 if ((songs[i].id == Integer.parseInt(searchQuery))) {
@@ -415,7 +522,16 @@ public class Collection {
         }
     }
 
-    public void editSong(){
+    public void editSong()
+        /*
+         * Collection editSong
+         * Edits a song object and then updates the corresponding row of the database
+         * Arguments:
+         *          None
+         * Returns:
+         *          None
+         */
+    {
         int changeOption = 0;
         switch(editNext) {
             case 1:
@@ -577,7 +693,16 @@ public class Collection {
         }
     }
 
-    public void makeSingle(){
+    public void makeSingle()
+        /*
+         * Collection makeSingle
+         * Turns a song object into a single or undoes its single status
+         * Arguments:
+         *          None
+         * Returns:
+         *          None
+         */
+    {
         {
             switch(singNext) {
                 case 1:
@@ -616,7 +741,7 @@ public class Collection {
                         }
                         else {
                             db1.update("Single","false","Title",songs[j].title);
-                            codeOutput = "\n" + songs[j].title + "single status was removed.";
+                            codeOutput = "\n" + songs[j].title + " single status was removed.";
 
                         }
                         codeOutput += "\nClick to continue.";
@@ -635,10 +760,10 @@ public class Collection {
 }
 class Song {
     /*
-        Michael N. Mitchell, CEN-3024C-31950, June 12 2024
-        Song. This class contains the song information. One of these is made for each individual song
-        that is listed in the file.
-         */
+     * Song
+     * Michael N. Mitchell, CEN-3024C-31950, July 10, 2024
+     * A song is an object that represents each row of the database.
+     */
     public String title;
     public String album;
     public int track;
@@ -648,7 +773,23 @@ class Song {
     public boolean single;
     public int id;
 
-    Song(String title, String album, int track, int year, String length, String writer, boolean single, int id){
+    Song(String title, String album, int track, int year, String length, String writer, boolean single, int id)
+        /*
+         * Song Constructor
+         * Creates a song object
+         * Arguments:
+         *          String title
+         *          String album
+         *          int track
+         *          int year
+         *          String length
+         *          String writer
+         *          boolean single
+         *          int id
+         * Returns:
+         *          None
+         */
+    {
         this.title = title;
         this.album = album;
         this.track = track;
@@ -659,7 +800,16 @@ class Song {
         this.id = id;
     }
 
-    public String toString(){
+    public String toString()
+        /*
+         * Song toString
+         * Converts the song object into a string that consists of all the parts with a comma between each.
+         * Arguments:
+         *          None
+         * Returns:
+         *          String
+         */
+    {
         return(title + "," + album + "," + track + "," + year + "," + length + "," + writer + "," + single + "," + id );
     }
 

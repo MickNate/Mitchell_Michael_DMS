@@ -4,6 +4,12 @@ import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 public class RiseAgainst extends DBHelper {
+	/*
+	 * RiseAgainst
+	 * Michael N. Mitchell, CEN-3024C-31950, July 10, 2024
+	 * Class that is able to easily access the database to make changes without the user having to worry
+	 * about typing in SQL queries themselves.
+	 */
 	private final String TABLE_NAME = "RiseAgainst";
 	public static final String Title = "Title";
 	public static final String Album = "Album";
