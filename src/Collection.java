@@ -8,13 +8,16 @@ import java.nio.file.Paths;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Collection
+ * Michael N. Mitchell, CEN-3024C-31950, July 10, 2024
+ * The logic portion of the program. Creates a "collection" of songs using the database
+ * and also updates the database with any changes.
+ */
 public class Collection {
-
-    /*
-     * Collection
-     * Michael N. Mitchell, CEN-3024C-31950, July 10, 2024
-     * The logic portion of the program. Creates a "collection" of songs using the database
-     * and also updates the database with any changes.
+    /**
+     * Collection Constructor
+     * Creates a Collection object
      */
     public Collection(){}
 
@@ -51,17 +54,15 @@ public class Collection {
     String url = null;
     RiseAgainst db1 = null;
 
+    /**
+     * Collection createCollection
+     * Takes the resultset of the database and creates an array of
+     * song objects with each song being a different row of the
+     * database.
+     * @param resultSet passes in results from the database
+     * @throws SQLException will catch if error with resultset
+     */
     public void createCollection(ResultSet resultSet) throws SQLException
-        /*
-         * Collection createCollection
-         * Takes the resultset of the database and creates an array of
-         * song objects with each song being a different row of the
-         * database.
-         * Arguments:
-         *          Resultset resultset
-         * Returns:
-         *          None
-         */
     {
 
         Song[] temp = new Song[1]; //creates a temporary array for the Song objects
@@ -78,31 +79,24 @@ public class Collection {
         }
     }
 
+    /**
+     * Collection setUserInput
+     * Takes the input based from the gui by the controller and sets that
+     * equal to the Collection's userinput variable
+     * @param userInput takes in a string of what the user input
+     */
     public void setUserInput(String userInput)
-        /*
-         * Collection setUserInput
-         * Takes the input based from the gui by the controller and sets that
-         * equal to the Collection's userinput variable
-         * Arguments:
-         *          String userInput
-         * Returns:
-         *          None
-         */
     {
         this.userInput = userInput;
     }
 
+    /**
+     * Collection choices
+     * Takes the "next" variable and uses it to decide which part of the
+     * program to call next.
+     */
     public void choices()
-        /*
-         * Collection choices
-         * Takes the "next" variable and uses it to decide which part of the
-         * program to call next.
-         * Arguments:
-         *          None
-         * Returns:
-         *          None
-         */
-    {
+       {
         switch(next){
             case 0:
                 introInstru();
@@ -134,29 +128,22 @@ public class Collection {
         }
     }
 
+    /**
+     * Collection introInstru
+     * Introduction that asks for user to give filepath input
+     */
     public void introInstru()
-        /*
-         * Introduction that asks for user to give filepath input
-         * Arguments:
-         *          None
-         * Returns:
-         *          None
-         */
-    {
+       {
         codeOutput = "\nWelcome to the Rise Against Database Management System!\nPlease type in a file path.";
         next = 1;
     }
 
+    /**
+     * Collection colIntro
+     * Establishes connection with the database.
+     */
     public void colIntro()
-        /*
-         * Collection colIntro
-         * Establishes connection with the database.
-         * Arguments:
-         *          None
-         * Returns:
-         *          None
-         */
-    {
+       {
         cont = false;
 
         url = userInput;
@@ -179,28 +166,20 @@ public class Collection {
 
     }
 
+    /**
+     * Collection quit
+     * Shuts down the program
+     */
     public void quit()
-        /*
-         * Collection quit
-         * Shuts down the program
-         * Arguments:
-         *          None
-         * Returns:
-         *          None
-         */
     {
         System.exit(0);
     }
 
+    /**
+     * Collection displayLibrary
+     * Will go through the array of songs and display each song and the user menu options
+     */
     public void displayLibrary()
-        /*
-         * Collection displayLibrary
-         * Will go through the array of songs and display each song and the user menu options
-         * Arguments:
-         *          None
-         * Returns:
-         *          None
-         */
     {
         codeOutput = ("\nThe current songs in the library are: \n\n");
         for(int i = 0; i < songCount; i++) //displays each songs.
@@ -214,16 +193,12 @@ public class Collection {
         next = 3;
     }
 
+    /**
+     * Collection interaction
+     * Will look at user input on the menu and update place variables so when collection
+     * called again, will move to that corresponding function
+     */
     public void interaction() {
-        /*
-         * Collection interaction
-         * Will look at user input on the menu and update place variables so when collection
-         * called again, will move to that corresponding function
-         * Arguments:
-         *          None
-         * Returns:
-         *          None
-         */
 
         answer = null;
         found = false;
@@ -263,17 +238,12 @@ public class Collection {
             }
         }
 
-
+    /**
+     * Collection addSong
+     * Creates a song object, puts song object in the collection and creates a corresponding
+     * row in the database.
+     */
     public void addSong()
-        /*
-         * Collection addSong
-         * Creates a song object, puts song object in the collection and creates a corresponding
-         * row in the database.
-         * Arguments:
-         *          None
-         * Returns:
-         *          None
-         */
     {
 
         boolean commaCheck = false;
@@ -400,6 +370,10 @@ public class Collection {
             }
         }
 
+    /**
+     * Collection nullifyTemps
+     * Takes the temporary song variables and sets then all to null.
+     */
     public void nullifyTemps()
         /*
          * Collection nullifyTemps
@@ -420,16 +394,11 @@ public class Collection {
         songWriter = null;
     }
 
-
+    /**
+     * Collection removeSong
+     * Removes a song from the collection and removes corresponding row from database
+     */
     public void removeSong()
-        /*
-         * Collection removeSong
-         * Removes a song from the collection and removes corresponding row from database
-         * Arguments:
-         *          None
-         * Returns:
-         *          None
-         */
     {
         switch(remNext){
             case 1:
@@ -496,15 +465,12 @@ public class Collection {
         }
     }
 
+    /**
+     * Collection searchFor
+     * Looks through the collection for a song with a corresponding id or title
+     * @param searchQuery takes in a string of what is being looked for
+     */
     private void searchFor(String searchQuery)
-        /*
-         * Collection searchFor
-         * Looks through the collection for a song with a corresponding id or title
-         * Arguments:
-         *          String searchQuery
-         * Returns:
-         *          None
-         */
     {
         for(int i = 0; i < songCount; i++) {
             try {
@@ -522,15 +488,11 @@ public class Collection {
         }
     }
 
+    /**
+     * Collection editSong
+     * Edits a song object and then updates the corresponding row of the database
+     */
     public void editSong()
-        /*
-         * Collection editSong
-         * Edits a song object and then updates the corresponding row of the database
-         * Arguments:
-         *          None
-         * Returns:
-         *          None
-         */
     {
         int changeOption = 0;
         switch(editNext) {
@@ -693,15 +655,11 @@ public class Collection {
         }
     }
 
+    /**
+     * Collection makeSingle
+     * Turns a song object into a single or undoes its single status
+     */
     public void makeSingle()
-        /*
-         * Collection makeSingle
-         * Turns a song object into a single or undoes its single status
-         * Arguments:
-         *          None
-         * Returns:
-         *          None
-         */
     {
         {
             switch(singNext) {
@@ -760,7 +718,7 @@ public class Collection {
 }
 
 class Song {
-    /*
+    /**
      * Song
      * Michael N. Mitchell, CEN-3024C-31950, July 10, 2024
      * A song is an object that represents each row of the database.
@@ -774,22 +732,19 @@ class Song {
     public boolean single;
     public int id;
 
+    /**
+     * Song Constructor
+     * Creates a song object
+     * @param title String passed into constructor
+     * @param album String passed into constructor
+     * @param track int passed into constructor
+     * @param year int passed into constructor
+     * @param length String passed into constructor
+     * @param writer String passed into constructor
+     * @param single boolean passed into constructor
+     * @param id int passed into constructor
+     */
     Song(String title, String album, int track, int year, String length, String writer, boolean single, int id)
-        /*
-         * Song Constructor
-         * Creates a song object
-         * Arguments:
-         *          String title
-         *          String album
-         *          int track
-         *          int year
-         *          String length
-         *          String writer
-         *          boolean single
-         *          int id
-         * Returns:
-         *          None
-         */
     {
         this.title = title;
         this.album = album;
@@ -801,15 +756,12 @@ class Song {
         this.id = id;
     }
 
+    /**
+     * Song toString
+     * Converts the song object into a string that consists of all the parts with a comma between each.
+     * @return String of all the items in a specific song object
+     */
     public String toString()
-        /*
-         * Song toString
-         * Converts the song object into a string that consists of all the parts with a comma between each.
-         * Arguments:
-         *          None
-         * Returns:
-         *          String
-         */
     {
         return(title + "," + album + "," + track + "," + year + "," + length + "," + writer + "," + single + "," + id );
     }
